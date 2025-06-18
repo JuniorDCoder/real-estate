@@ -41,11 +41,11 @@
                     <!-- Single Listings Slides -->
                     <div class="single-listings-sliders owl-carousel">
                         <!-- Main Property Image -->
-                        <img src="{{ asset($property->image_url) }}" alt="{{ $property->title }}">
+                        <img src="{{ asset('img/properties/' . $property->image) }}" alt="{{ $property->title }}">
 
                         {{-- You can add more images here if you have a gallery --}}
                         @if($property->image)
-                            <img src="{{ asset($property->image_url) }}" alt="{{ $property->title }} - View 2">
+                            <img src="{{ asset('img/properties/' . $property->image) }}" alt="{{ $property->title }} - View 2">
                         @endif
                     </div>
                 </div>

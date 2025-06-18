@@ -8,6 +8,7 @@ use Illuminate\Support\Facades\Log;
 use App\Http\Requests\ContactFormRequest;
 use App\Mail\ContactFormMail;
 use Illuminate\Support\Facades\Mail;
+use Illuminate\Support\Facades\Auth;
 
 class HomeController extends Controller
 {
@@ -31,6 +32,45 @@ class HomeController extends Controller
             'filterOptions' => $filterOptions,
             'agents' => [],
         ]);
+    }
+
+    /**
+     * Display the login page.
+     *
+     * @return \Illuminate\View\View
+     */
+    public function login()
+    {
+         if (auth()->check()) {
+            return redirect()->route('admin.dashboard');
+        }
+        return view('pages.auth.login');
+    }
+
+    public function authenticate(Request $request)
+    {
+        $credentials = $request->validate([
+            'email' => ['required', 'email'],
+            'password' => ['required'],
+        ]);
+
+        if (Auth::attempt($credentials)) {
+            $request->session()->regenerate();
+
+            // Check if user is admin
+            if (auth()->user()->role !== 'admin') {
+                Auth::logout();
+                return back()->withErrors([
+                    'email' => 'You do not have permission to access the admin area.',
+                ])->onlyInput('email');
+            }
+
+            return redirect()->intended(route('admin.dashboard'));
+        }
+
+        return back()->withErrors([
+            'email' => 'The provided credentials do not match our records.',
+        ])->onlyInput('email');
     }
 
     /**

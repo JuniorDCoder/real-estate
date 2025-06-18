@@ -4,6 +4,7 @@ use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\HomeController;
 use App\Http\Controllers\PropertyController;
 use App\Http\Controllers\AgentController;
+use App\Http\Controllers\AdminController;
 
 Route::get('/', [HomeController::class, 'index'])->name('home');
 
@@ -35,6 +36,18 @@ Route::group(['prefix' => 'properties'], function () {
     Route::post('/property/{id}/contact', [PropertyController::class, 'contact'])->name('property.contact');
 
 
-    // Delete property
-    Route::delete('/{property}', [PropertyController::class, 'destroy'])->name('properties.destroy');
+});
+
+Route::get('/admin/login', [HomeController::class, 'login'])->name('login');
+Route::post('/admin/login', [HomeController::class, 'authenticate'])->name('admin.login');
+
+Route::group(['middleware' => 'auth', 'prefix' => 'admin'], function () {
+    Route::get('/', [AdminController::class, 'adminDashboard'])->name('admin.dashboard');
+    Route::get('/properties/create', [AdminController::class, 'createProperty'])->name('properties.create');
+    Route::post('/properties', [AdminController::class, 'storeProperty'])->name('properties.store');
+    Route::post('logout', [AdminController::class, 'logout'])->name('admin.logout');
+    Route::get('/properties', [AdminController::class, 'listProperties'])->name('admin.properties.index');
+    Route::get('/properties/{property}/edit', [AdminController::class, 'editProperty'])->name('properties.edit');
+    Route::post('/properties/{property}/edit', [AdminController::class, 'updateProperty'])->name('properties.update');
+    Route::delete('/properties/{property}', [AdminController::class, 'destroyProperty'])->name('properties.destroy');
 });

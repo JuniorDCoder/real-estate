@@ -93,7 +93,7 @@
                     <div class="single-featured-property mb-50">
                         <!-- Property Thumbnail -->
                         <div class="property-thumb">
-                            <img src="{{ $property->image ? asset('storage/' . $property->image) : asset('img/bg-img/feature1.jpg') }}"
+                            <img src="{{ $property->image ? asset('img/properties/' . $property->image) : asset('img/bg-img/feature1.jpg') }}"
                                  alt="{{ $property->title }}" style="height: 250px; object-fit: cover; width: 100%;">
 
                             <!-- Status Tag -->
@@ -158,11 +158,9 @@
                                 <a href="{{ route('property.show', $property->id) }}" class="btn btn-outline-primary btn-sm">
                                     View Details
                                 </a>
-                                @if(auth()->check())
-                                    <a href="#" class="btn btn-outline-success btn-sm ml-2" data-toggle="modal" data-target="#inquiryModal" data-property-id="{{ $property->id }}">
+                               <a href="{{ route('property.show', $property->id) }}" class="btn btn-outline-success btn-sm ml-2" >
                                         Inquire
-                                    </a>
-                                @endif
+                                </a>
                             </div>
                         </div>
                     </div>
@@ -206,55 +204,4 @@
     </section>
     <!-- ##### Listing Content Wrapper Area End ##### -->
 
-    <!-- Inquiry Modal (if user is authenticated) -->
-    @if(auth()->check())
-    <div class="modal fade" id="inquiryModal" tabindex="-1" role="dialog" aria-labelledby="inquiryModalLabel" aria-hidden="true">
-        <div class="modal-dialog" role="document">
-            <div class="modal-content">
-                <div class="modal-header">
-                    <h5 class="modal-title" id="inquiryModalLabel">Property Inquiry</h5>
-                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-                        <span aria-hidden="true">&times;</span>
-                    </button>
-                </div>
-                <form id="inquiryForm" method="POST" action="{{ route('property.inquiry') }}">
-                    @csrf
-                    <input type="hidden" name="property_id" id="modal-property-id">
-                    <div class="modal-body">
-                        <div class="form-group">
-                            <label for="name">Full Name</label>
-                            <input type="text" class="form-control" name="name" value="{{ auth()->user()->name }}" required>
-                        </div>
-                        <div class="form-group">
-                            <label for="email">Email</label>
-                            <input type="email" class="form-control" name="email" value="{{ auth()->user()->email }}" required>
-                        </div>
-                        <div class="form-group">
-                            <label for="phone">Phone Number</label>
-                            <input type="tel" class="form-control" name="phone" required>
-                        </div>
-                        <div class="form-group">
-                            <label for="message">Message</label>
-                            <textarea class="form-control" name="message" rows="4" placeholder="I'm interested in this property. Please contact me with more details."></textarea>
-                        </div>
-                    </div>
-                    <div class="modal-footer">
-                        <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
-                        <button type="submit" class="btn btn-primary">Send Inquiry</button>
-                    </div>
-                </form>
-            </div>
-        </div>
-    </div>
-    @endif
-
-    <script>
-        // Handle inquiry modal
-        $('#inquiryModal').on('show.bs.modal', function (event) {
-            var button = $(event.relatedTarget);
-            var propertyId = button.data('property-id');
-            var modal = $(this);
-            modal.find('#modal-property-id').val(propertyId);
-        });
-    </script>
 @endsection

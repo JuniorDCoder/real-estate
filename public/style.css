@@ -11,7 +11,7 @@
 ################################################## */
 /* ##### Index of Stylesheet #####
 
-:: 1.0 Import Fonts 
+:: 1.0 Import Fonts
 :: 2.0 Import All CSS
 :: 3.0 Base CSS
 :: 4.0 Preloader Area CSS
@@ -30,7 +30,7 @@
 :: 17.0 About Us Area CSS
 :: 18.0 Team Member Area CSS
 :: 19.0 Listings Area CSS
-:: 20.0 Blog Area CSS 
+:: 20.0 Blog Area CSS
 :: 21.0 Contact Area CSS
 :: 22.0 Shortcode Area CSS
 
@@ -316,11 +316,13 @@ img {
     -webkit-transform: rotate(360deg);
     transform: rotate(360deg); } }
 /* :: 5.0 Scroll Up Area CSS */
+/* Find and update the #scrollUp selector: */
 #scrollUp {
   background-color: #947054;
   border-radius: 50%;
   bottom: 40px;
-  right: 40px;
+  left: 40px;      /* Change from right: 40px; to left: 40px; */
+  right: auto;     /* Add this to override any right positioning */
   box-shadow: 0 0 5px 0 rgba(255, 255, 255, 0.1);
   color: #ffffff;
   font-size: 24px;
@@ -329,24 +331,30 @@ img {
   width: 50px;
   line-height: 46px;
   -webkit-transition-duration: 500ms;
-  transition-duration: 500ms; }
-  #scrollUp:hover {
-    background-color: #000000; }
-  @media only screen and (min-width: 768px) and (max-width: 991px) {
-    #scrollUp {
-      bottom: 30px;
-      right: 30px;
-      height: 50px;
-      width: 50px;
-      line-height: 46px; } }
-  @media only screen and (max-width: 767px) {
-    #scrollUp {
-      bottom: 30px;
-      right: 30px;
-      height: 50px;
-      width: 50px;
-      line-height: 46px; } }
+  transition-duration: 500ms;
+}
 
+/* Update media queries as well: */
+@media only screen and (min-width: 768px) and (max-width: 991px) {
+  #scrollUp {
+    bottom: 30px;
+    left: 30px;    /* Change from right: 30px; to left: 30px; */
+    right: auto;
+    height: 50px;
+    width: 50px;
+    line-height: 46px;
+  }
+}
+@media only screen and (max-width: 767px) {
+  #scrollUp {
+    bottom: 30px;
+    left: 30px;    /* Change from right: 30px; to left: 30px; */
+    right: auto;
+    height: 50px;
+    width: 50px;
+    line-height: 46px;
+  }
+}
 /* :: 6.0 Section Heading Area CSS */
 .section-heading {
   position: relative;
