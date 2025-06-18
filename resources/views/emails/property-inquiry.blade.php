@@ -321,7 +321,7 @@
                     </div>
                     <div class="info-content">
                         <div class="info-label">Full Name</div>
-                        <div class="info-value">{{ $inquiry->name ?? 'Not provided' }}</div>
+                        <div class="info-value">{{ $name ?? 'Not provided' }}</div>
                     </div>
                 </div>
 
@@ -333,7 +333,7 @@
                     </div>
                     <div class="info-content">
                         <div class="info-label">Email Address</div>
-                        <div class="info-value">{{ $inquiry->email ?? 'Not provided' }}</div>
+                        <div class="info-value">{{ $email ?? 'Not provided' }}</div>
                     </div>
                 </div>
 
@@ -345,7 +345,7 @@
                     </div>
                     <div class="info-content">
                         <div class="info-label">Phone Number</div>
-                        <div class="info-value">{{ $inquiry->phone ?? 'Not provided' }}</div>
+                        <div class="info-value">{{ $phone ?? 'Not provided' }}</div>
                     </div>
                 </div>
             </div>
@@ -381,13 +381,13 @@
                 </div>
             </div>
 
-            @if(isset($inquiry->message) && $inquiry->message)
+            @if(isset($messageContent) && $messageContent)
             <div class="message-section">
                 <div class="message-header">
                     💬 Customer Message
                 </div>
                 <div class="message-content">
-                    {{ $inquiry->message }}
+                    {{ $messageContent }}
                 </div>
             </div>
             @endif
