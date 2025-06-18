@@ -17,7 +17,7 @@
                     <div class="single-featured-property mb-50 wow fadeInUp" data-wow-delay="{{ ($index + 1) * 100 }}ms">
                         <!-- Property Thumbnail -->
                         <div class="property-thumb">
-                            <img src="img/bg-img/{{ $property->image }}" alt="{{ $property->title }}">
+                            <img src="img/properties/{{ $property->image }}" alt="{{ $property->title }}">
 
                             <div class="tag">
                                 <span>For Sale</span>
