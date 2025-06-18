@@ -8,6 +8,7 @@ use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Support\Facades\Log;
 use App\Http\Requests\PropertyContactRequest;
 use App\Mail\PropertyInquiryMail;
+use Illuminate\Support\Facades\Mail;
 
 class PropertyController extends Controller
 {
