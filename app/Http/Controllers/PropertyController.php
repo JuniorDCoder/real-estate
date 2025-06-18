@@ -6,6 +6,8 @@ use Illuminate\Http\Request;
 use App\Models\Property;
 use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Support\Facades\Log;
+use App\Http\Requests\PropertyContactRequest;
+use App\Mail\PropertyInquiryMail;
 
 class PropertyController extends Controller
 {
@@ -24,10 +26,40 @@ class PropertyController extends Controller
         return view('pages.properties.index', compact('properties', 'filterOptions'));
     }
 
-    public function show($id)
+public function show($id)
+    {
+        $property = Property::where('status', 'Active')->findOrFail($id);
+
+        // You can add related properties or other data here
+        $relatedProperties = Property::where('status', 'Active')
+            ->where('id', '!=', $id)
+            ->where('city', $property->city)
+            ->limit(4)
+            ->get();
+
+        return view('pages.properties.show', compact('property', 'relatedProperties'));
+    }
+
+    public function contact(PropertyContactRequest $request, $id)
     {
         $property = Property::findOrFail($id);
-        return view('pages.properties.show', compact('property'));
+
+        try {
+            // Send email with property context
+            Mail::to(env('CONTACT_EMAIL', 'admin@example.com'))
+                ->send(new PropertyInquiryMail($request->validated(), $property));
+
+            return redirect()->back()->with([
+                'success' => 'Thank you for your inquiry! We will contact you soon about this property.',
+                'alert_type' => 'success'
+            ]);
+
+        } catch (\Exception $e) {
+            return redirect()->back()->with([
+                'error' => 'Sorry, there was an error sending your message. Please try again.',
+                'alert_type' => 'error'
+            ])->withInput();
+        }
     }
 
     public function search(Request $request)

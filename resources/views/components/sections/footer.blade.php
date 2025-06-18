@@ -13,9 +13,9 @@
                                 <h6>About Us</h6>
                             </div>
 
-                            <img src="img/bg-img/footer.jpg" alt="">
+                            <img src="{{ asset('img/bg-img/footer.jpg') }}" alt="">
                             <div class="footer-logo my-4">
-                                <img src="img/core-img/logo.png" alt="">
+                                <img src="{{ asset('img/core-img/logo.png') }}" alt="">
                             </div>
                             <p>
                                 {{ config('app.name') }} is your trusted platform for discovering, buying, and selling real estate. We connect buyers, sellers, and agents to make property transactions seamless and secure.
@@ -40,11 +40,11 @@
                             </div>
                             <!-- Address -->
                             <div class="address">
-                                <h6><img src="img/icons/phone-call.png" alt=""> {{ env('PHONE_NUMBER') }}</h6>
-                                <h6><img src="img/icons/envelope.png" alt="">
+                                <h6><img src="{{ asset('img/icons/phone-call.png') }}" alt=""> {{ env('PHONE_NUMBER') }}</h6>
+                                <h6><img src="{{ asset('img/icons/envelope.png') }}" alt="">
                                     {{ env('MAIL_FROM_ADDRESS') }}
                                 </h6>
-                                <h6><img src="img/icons/location.png" alt=""> {{ env('ADDRESS') }}</h6>
+                                <h6><img src="{{ asset('img/icons/location.png') }}" alt=""> {{ env('ADDRESS') }}</h6>
                             </div>
                         </div>
                     </div>
@@ -77,15 +77,15 @@
                             <div class="featured-properties-slides owl-carousel">
                                 <!-- Single Slide -->
                                 <div class="single-featured-properties-slide">
-                                    <a href="#"><img src="img/bg-img/fea-product.jpg" alt=""></a>
+                                    <a href="#"><img src="{{ asset('img/bg-img/fea-product.jpg') }}" alt=""></a>
                                 </div>
                                 <!-- Single Slide -->
                                 <div class="single-featured-properties-slide">
-                                    <a href="#"><img src="img/bg-img/fea-product.jpg" alt=""></a>
+                                    <a href="#"><img src="{{ asset('img/bg-img/fea-product.jpg') }}" alt=""></a>
                                 </div>
                                 <!-- Single Slide -->
                                 <div class="single-featured-properties-slide">
-                                    <a href="#"><img src="img/bg-img/fea-product.jpg" alt=""></a>
+                                    <a href="#"><img src="{{ asset('img/bg-img/fea-product.jpg') }}" alt=""></a>
                                 </div>
                             </div>
                         </div>

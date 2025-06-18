@@ -32,6 +32,8 @@ Route::group(['prefix' => 'properties'], function () {
     // Edit property
     Route::get('/{property}/edit', [PropertyController::class, 'edit'])->name('properties.edit');
     Route::put('/{property}', [PropertyController::class, 'update'])->name('properties.update');
+    Route::post('/property/{id}/contact', [PropertyController::class, 'contact'])->name('property.contact');
+
 
     // Delete property
     Route::delete('/{property}', [PropertyController::class, 'destroy'])->name('properties.destroy');

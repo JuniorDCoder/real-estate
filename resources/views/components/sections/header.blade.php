@@ -9,7 +9,7 @@
                 </div>
                 <div class="phone-number d-flex">
                     <div class="icon">
-                        <img src="img/icons/phone-call.png" alt="">
+                        <img src="{{ asset('img/icons/phone-call.png') }}" alt="">
                     </div>
                     <div class="number">
                         <a href="tel:{{ env('PHONE_NUMBER') }}">{{ env('PHONE_NUMBER') }}</a>
@@ -25,7 +25,7 @@
                 <nav class="classy-navbar justify-content-between" id="southNav">
 
                     <!-- Logo -->
-                    <a class="nav-brand" href="index.html"><img src="img/core-img/logo.png" alt=""></a>
+                    <a class="nav-brand" href="{{ route('home') }}"><img src="{{ asset('img/core-img/logo.png') }}" alt=""></a>
 
                     <!-- Navbar Toggler -->
                     <div class="classy-navbar-toggler">
