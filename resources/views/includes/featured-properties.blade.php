@@ -17,7 +17,19 @@
                     <div class="single-featured-property mb-50 wow fadeInUp" data-wow-delay="{{ ($index + 1) * 100 }}ms">
                         <!-- Property Thumbnail -->
                         <div class="property-thumb">
-                            <img src="img/properties/{{ $property->image }}" alt="{{ $property->title }}">
+                            @if($property->images && $property->images->count())
+    <img
+        src="{{ asset('img/properties/' . $property->images->first()->image) }}"
+        alt="{{ $property->title }}"
+        style="width:100%;max-width:350px;height:220px;object-fit:cover;border-radius:8px;"
+    >
+@else
+    <img
+        src="https://images.unsplash.com/photo-1506744038136-46273834b3fb?auto=format&fit=crop&w=350&q=80"
+        alt="Sample property"
+        style="width:100%;max-width:350px;height:220px;object-fit:cover;border-radius:8px;"
+    >
+@endif
 
                             <div class="tag">
                                 <span>For Sale</span>

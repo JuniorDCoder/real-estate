@@ -40,13 +40,37 @@
                 <div class="col-12">
                     <!-- Single Listings Slides -->
                     <div class="single-listings-sliders owl-carousel">
-                        <!-- Main Property Image -->
-                        <img src="{{ asset('img/properties/' . $property->image) }}" alt="{{ $property->title }}">
-
-                        {{-- You can add more images here if you have a gallery --}}
-                        @if($property->image)
-                            <img src="{{ asset('img/properties/' . $property->image) }}" alt="{{ $property->title }} - View 2">
+                        @if($property->images && $property->images->count())
+                            @foreach($property->images as $img)
+                                @if($img->image && file_exists(public_path('img/properties/' . $img->image)))
+                                    <img src="{{ asset('img/properties/' . $img->image) }}" alt="{{ $property->title }}">
+                                @endif
+                            @endforeach
+                        @elseif($property->image && file_exists(public_path('img/properties/' . $property->image)))
+                            <img src="{{ asset('img/properties/' . $property->image) }}" alt="{{ $property->title }}">
+                        @else
+                            <img src="{{ asset('img/bg-img/no-image.png') }}" alt="No image available">
                         @endif
+                    </div>
+                    @if($property->images && $property->images->count() > 1)
+                        <div class="property-thumbnails d-flex mt-2">
+                            @foreach($property->images as $img)
+                                @if($img->image && file_exists(public_path('img/properties/' . $img->image)))
+                                    <img src="{{ asset('img/properties/' . $img->image) }}" alt="Thumbnail"
+                                        style="width:60px;height:60px;object-fit:cover;margin-right:8px;cursor:pointer;"
+                                        onclick="$('.single-listings-sliders').trigger('to.owl.carousel', [{{ $loop->index }}, 300]);">
+                                @endif
+                            @endforeach
+                        </div>
+                    @endif
+                    <!-- Property Details -->
+                    <div class="listings-details">
+                        <h2>{{ $property->title }}</h2>
+                        <p class="location">
+                            <img src="{{ asset('img/icons/location.png') }}" alt="Location">
+                            {{ $property->address }}{{ $property->city ? ', ' . $property->city : '' }}
+                        </p>
+                        <p class="description">{{ $property->description }}</p>
                     </div>
                 </div>
             </div>

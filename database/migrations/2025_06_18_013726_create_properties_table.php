@@ -15,7 +15,7 @@ return new class extends Migration
             $table->id();
             $table->string('title');
             $table->text('description');
-            $table->string('address');
+            $table->string('address')->nullable();
             $table->string('city')->nullable();
             $table->decimal('price', 15, 2);
             $table->string('property_type')->default('House'); // e.g., House, Apartment, Commercial
@@ -25,8 +25,8 @@ return new class extends Migration
             $table->boolean('is_new')->default(true);
             $table->integer('bedrooms');
             $table->integer('bathrooms');
-            $table->float('area'); // in square feet or meters
-            $table->string('image'); // store image filename or path
+            $table->float('area')->nullable(); // in square feet or meters
+            $table->string('image')->nullable(); // store image filename or path
             $table->timestamps();
         });
     }

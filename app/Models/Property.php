@@ -91,4 +91,9 @@ class Property extends Model
 
         return array_merge($features, array_slice($defaultFeatures, 0, 8 - count($features)));
     }
+
+    public function images()
+    {
+        return $this->hasMany(\App\Models\PropertyImage::class);
+    }
 }

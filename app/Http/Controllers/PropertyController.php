@@ -27,19 +27,19 @@ class PropertyController extends Controller
         return view('pages.properties.index', compact('properties', 'filterOptions'));
     }
 
-public function show($id)
+    public function show($id)
     {
-        $property = Property::where('status', 'Active')->findOrFail($id);
+            $property = Property::where('status', 'Active')->findOrFail($id);
 
-        // You can add related properties or other data here
-        $relatedProperties = Property::where('status', 'Active')
-            ->where('id', '!=', $id)
-            ->where('city', $property->city)
-            ->limit(4)
-            ->get();
+            // You can add related properties or other data here
+            $relatedProperties = Property::where('status', 'Active')
+                ->where('id', '!=', $id)
+                ->where('city', $property->city)
+                ->limit(4)
+                ->get();
 
-        return view('pages.properties.show', compact('property', 'relatedProperties'));
-    }
+            return view('pages.properties.show', compact('property', 'relatedProperties'));
+        }
 
     public function contact(PropertyContactRequest $request, $id)
     {

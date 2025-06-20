@@ -14,10 +14,20 @@ class AdminController extends Controller
     {
         $property = \App\Models\Property::findOrFail($id);
 
-        // Delete image file if exists
-        if ($property->image && File::exists(public_path('img/properties/' . $property->image))) {
-            File::delete(public_path('img/properties/' . $property->image));
-        }
+            // Delete all associated property images from disk and database
+            if ($property->images && $property->images->count()) {
+                foreach ($property->images as $img) {
+                    if ($img->image && \File::exists(public_path('img/properties/' . $img->image))) {
+                        \File::delete(public_path('img/properties/' . $img->image));
+                    }
+                    $img->delete();
+                }
+            }
+
+            // Delete main image if i   t exists (legacy)
+            if ($property->image && \File::exists(public_path('img/properties/' . $property->image))) {
+                \File::delete(public_path('img/properties/' . $property->image));
+            }
 
         $property->delete();
 
@@ -56,8 +66,8 @@ class AdminController extends Controller
         $validator = Validator::make($request->all(), [
             'title' => 'required|string|max:255',
             'description' => 'required|string',
-            'address' => 'required|string|max:255',
-            'city' => 'nullable|string|max:255',
+            // 'address' => 'required|string|max:255',
+            // 'city' => 'nullable|string|max:255',
             'price' => 'required|numeric|min:0',
             'property_type' => 'required|string|max:50',
             'building_type' => 'nullable|string|max:100',
@@ -66,28 +76,26 @@ class AdminController extends Controller
             'is_new' => 'nullable|boolean',
             'bedrooms' => 'required|integer|min:0',
             'bathrooms' => 'required|integer|min:0',
-            'area' => 'required|numeric|min:0',
-            'image' => 'required|image|mimes:jpeg,png,jpg,gif,webp|max:4096',
+            // 'area' => 'required|numeric|min:0',
+            'images.*' => 'nullable|image|mimes:jpeg,png,jpg,gif,webp|max:4096',
         ]);
             if ($validator->fails()) {
             return redirect()->back()->withErrors($validator)->withInput();
         }
 
-        $data = $validator->validated();
-
         // Handle checkboxes
         $data['is_featured'] = $request->has('is_featured');
         $data['is_new'] = $request->has('is_new');
+       $data = $request->except('images');
+       $property = Property::create($data);
 
-        // Handle image upload
-        if ($request->hasFile('image')) {
-            $image = $request->file('image');
-            $imageName = uniqid('property_') . '.' . $image->getClientOriginalExtension();
-            $image->move(public_path('img/properties'), $imageName);
-            $data['image'] = $imageName;
+        if ($request->hasFile('images')) {
+            foreach (array_slice($request->file('images'), 0, 15) as $image) {
+                $imageName = uniqid('property_') . '.' . $image->getClientOriginalExtension();
+                $image->move(public_path('img/properties'), $imageName);
+                $property->images()->create(['image' => $imageName]);
+            }
         }
-
-        Property::create($data);
 
         return redirect()->route('properties.create')->with('success', 'Property created successfully!');
     }

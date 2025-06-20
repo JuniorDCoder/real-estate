@@ -34,14 +34,14 @@
                 <label class="form-label" for="description">Description</label>
                 <textarea name="description" id="description" class="form-control" rows="4" required>{{ old('description') }}</textarea>
             </div>
-            <div class="form-group">
+            {{-- <div class="form-group">
                 <label class="form-label" for="address">Address</label>
                 <input type="text" name="address" id="address" class="form-control" value="{{ old('address') }}" required>
             </div>
             <div class="form-group">
                 <label class="form-label" for="city">City</label>
                 <input type="text" name="city" id="city" class="form-control" value="{{ old('city') }}">
-            </div>
+            </div> --}}
             <div class="form-group">
                 <label class="form-label" for="price">Price</label>
                 <input type="number" name="price" id="price" class="form-control" value="{{ old('price') }}" step="0.01" required>
@@ -85,14 +85,15 @@
                 <label class="form-label" for="bathrooms">Bathrooms</label>
                 <input type="number" name="bathrooms" id="bathrooms" class="form-control" value="{{ old('bathrooms') }}" required>
             </div>
-            <div class="form-group">
+            {{-- <div class="form-group">
                 <label class="form-label" for="area">Area (sq ft or m<sup>2</sup>)</label>
                 <input type="number" name="area" id="area" class="form-control" value="{{ old('area') }}" step="0.01" required>
-            </div>
+            </div> --}}
             <div class="form-group">
-                <label class="form-label" for="image">Property Image</label>
-                <input type="file" name="image" id="image" class="form-control" accept="image/*" required>
-                <img id="imagePreview" src="#" alt="Image Preview" style="display:none;max-width:150px;margin-top:10px;">
+                <label class="form-label" for="images">Property Images (up to 15)</label>
+                <input type="file" name="images[]" id="images" class="form-control" accept="image/*" multiple>
+                <div id="imagesPreview" class="d-flex flex-wrap mt-2"></div>
+                <small class="text-muted">You can select up to 15 images.</small>
             </div>
             <button type="submit" class="btn btn-primary w-100">Create Property</button>
         </form>
@@ -102,13 +103,21 @@
 
 @push('scripts')
 <script>
-document.getElementById('image').addEventListener('change', function(e) {
-    const [file] = this.files;
-    if (file) {
-        const preview = document.getElementById('imagePreview');
-        preview.src = URL.createObjectURL(file);
-        preview.style.display = 'block';
-    }
+document.getElementById('images').addEventListener('change', function(e) {
+    const preview = document.getElementById('imagesPreview');
+    preview.innerHTML = '';
+    const files = Array.from(this.files).slice(0, 15);
+    files.forEach(file => {
+        const reader = new FileReader();
+        reader.onload = function(e) {
+            const img = document.createElement('img');
+            img.src = e.target.result;
+            img.style.maxWidth = '100px';
+            img.style.margin = '5px';
+            preview.appendChild(img);
+        };
+        reader.readAsDataURL(file);
+    });
 });
 </script>
 @endpush
